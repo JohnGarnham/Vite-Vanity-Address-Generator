@@ -20,9 +20,9 @@
 
 .input-button-row {
   color: rgb(168, 13, 13);
-  background-color: #7273bd;
+  background-color: #5a4cdb;
   width: 100vw;
-  height: 200px;
+  height: 70px;
 }
 
 .input-button {
@@ -30,7 +30,7 @@
   background-color: #2f3368;
   float: left;
   width: 30%;
-  height: 20px;
+  height: 80%;
   margin: 5px;
 }
 
@@ -48,3 +48,28 @@
   height: 20%;
   margin: 5px;
 }
+
+.text-input-iterations {
+  color: rgb(245, 223, 223);
+  background-color: #1e109c;
+  width: 50px;
+  height: 20%;
+  margin: 5px;
+}
+
+.output-row {
+  color: rgb(218, 195, 195);
+  background-color: #5a4cdb;
+  width: 100vw;
+  height: 400px;
+  padding: 3px;
+}
+
+.textarea-output {
+  color: rgb(245, 223, 223);
+  background-color: #1e109c;
+  width: 70vw;
+  height: 80%;
+  margin: 5px;
+}
+

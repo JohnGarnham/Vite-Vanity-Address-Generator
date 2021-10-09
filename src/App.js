@@ -15,6 +15,9 @@ function App() {
       <div className="input-text-row">
         Suffix: <input type="text" className="text-input" id="suffix" name="suffix" />
       </div>
+      <div className="input-text-row">
+        Iterations: <input type="text" className="text-input-iterations" id="iterations" name="iterations" />
+      </div>
       <div className="input-button-row">
         <button type="button" className="input-button" name="Generate">
           Generate
@@ -22,6 +25,9 @@ function App() {
         <button type="button" className="input-button" name="Reset">
           Reset
         </button>
+      </div>
+      <div className="output-row">
+        <textarea className="textarea-output" id="output" name="output" readonly />
       </div>
     </div>
   );
