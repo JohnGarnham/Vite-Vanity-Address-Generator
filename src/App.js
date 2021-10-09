@@ -27,7 +27,7 @@ function App() {
         </button>
       </div>
       <div className="output-row">
-        <textarea className="textarea-output" id="output" name="output" readonly />
+        <textarea className="textarea-output" id="output" name="output" readOnly />
       </div>
     </div>
   );
