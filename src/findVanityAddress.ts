@@ -24,24 +24,26 @@ function isMatch(address : string, prefix : string, suffix : string) {
 
   // Generate count Vite address and search for prefix or suffix 
   function search(prefix : string, suffix : string, count : number) {
-      count += 1
+      count += 1;
       const iterations = 400;
       for(var i = 0; i < iterations; i++) {
         // Generate random 32 byte seed
         var array = new Uint8Array(32);
         getRandomValues(array);
         // Generate randomized hex string for seed
-        const seed = buf2hex(array.buffer)
+        const seed = buf2hex(array.buffer);
         // Generate an address
         let index = 0;
         var keyPair = wallet.deriveKeyPairByIndex(seed, index);
         var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
         // Check if generated address matches criteria
         if (isMatch(address.address, prefix, suffix)) {
-          console.log("Address matched: ", address.address)
-          return address
+          console.log("Address matched: ", address.address);
+          return address;
         }
-    }
+      }
+      // Return empty string if no matches found
+      return "";
   }
 
   // Convert buffer to hex string
