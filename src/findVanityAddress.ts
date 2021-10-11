@@ -11,19 +11,29 @@ var suffix = ''
 var initCharInt = 0 //used to subtract the match start point
 
 // Returns true if address matches our criteria
-function isMatch(address : string, prefix : string, suffix : string) {
+function isMatch(address : string, use_prefix : boolean, prefix : string, use_suffix : boolean, suffix : string) {
   // Chop off vite_
   const addr : string = address.substring(5);
   // Check matching prefix 
-  if (prefix != null && prefix !== "" && addr.startsWith(prefix)) return true;
+  if(use_prefix) {
+    // Fail on null or empty string
+    if (prefix == null || prefix === "") return false;
+    // Fail on mismatch
+    if (! addr.startsWith(prefix)) return false;
+  }
   // Check matching suffix
-  if (suffix != null && suffix !== "" && addr.endsWith(suffix)) return true;
-  // Else return false
-  return false;
+  if(use_suffix) {
+    // Fail on null or empty string
+    if (suffix == null || suffix === "") return false;
+    // Fail on mismatch
+    if (! addr.endsWith(suffix)) return false;
+  }
+  // If you reached here, you've won! :)
+  return true;
 }
 
 // Generate count Vite address and search for prefix or suffix 
-export function searchAddresses(prefix : string, suffix : string, count : number) {
+export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: boolean, suffix : string, count : number) {
   count += 1;
   const iterations = 400;
   for(var i = 0; i < iterations; i++) {
@@ -37,7 +47,7 @@ export function searchAddresses(prefix : string, suffix : string, count : number
     var keyPair = wallet.deriveKeyPairByIndex(seed, index);
     var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
     // Check if generated address matches criteria
-    if (isMatch(address.address, prefix, suffix)) {
+    if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
       console.log("Address matched: ", address.address);
       return address;
     }

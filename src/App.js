@@ -13,7 +13,7 @@ export default class VanityAddressForm extends React.Component {
         // Search parameters
         search: {      
           prefix: '',
-          use_prefix: true,
+          use_prefix: false,
           suffix: '',
           use_suffix: false,
           iterations: 0,
@@ -72,13 +72,15 @@ export default class VanityAddressForm extends React.Component {
     search.iterations  = event.target.value;
 
     let prefix = this.state.search.prefix;
+    let use_prefix = this.state.search.use_prefix;
     let suffix = this.state.search.suffix;
+    let use_suffix = this.state.search.suffix;
     let count = this.state.search.count;
 
     console.log("Searching " + count + " addresses with prefix \"" + prefix + "\" and suffix \"" + suffix + "\"");
     
     // Call search addresses function
-    let addr = searchAddresses(prefix,suffix,count);
+    let addr = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
     // If empty string returned, no matches found
     if(!addr || addr.length === 0) {
       console.log("No addresses found");
