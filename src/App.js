@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react' 
 import {searchAddresses} from './findVanityAddress'
 
+const DEFAULT_ITERATIONS = 10000;
 
 export default class VanityAddressForm extends React.Component {
 
@@ -19,6 +20,7 @@ export default class VanityAddressForm extends React.Component {
           iterations: 10000
         },
         result: {
+          seed: '',
           address: ''
         }
       };
@@ -63,6 +65,22 @@ export default class VanityAddressForm extends React.Component {
     search.use_suffix = ! search.use_suffix; 
     console.log(JSON.stringify(search));
     this.setState({ search: search });
+  }
+
+  // Reset all values
+  reset(event) {
+    // Set all search terms to their defaults
+    var search = this.state.search;
+    search.prefix = "";
+    search.suffix = "";
+    search.use_prefix = false;
+    search.use_suffix = false;
+    search.iterations = DEFAULT_ITERATIONS;
+    this.setState({ search: search });
+    // Clear output
+    var result = this.state.result;
+    result.address = "";
+    this.setState({ result: result });
   }
 
   // Generate addresses
@@ -129,7 +147,7 @@ export default class VanityAddressForm extends React.Component {
           <button type="button" className="input-button" name="Generate" onClick={this.generateAddresses.bind(this)}>
             Generate
           </button>
-          <button type="button" className="input-button" name="Reset">
+          <button type="button" className="input-button" name="Reset" onClick={this.reset.bind(this)}>
             Reset
           </button>
         </div>

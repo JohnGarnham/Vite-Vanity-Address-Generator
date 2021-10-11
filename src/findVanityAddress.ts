@@ -1,5 +1,4 @@
 import {wallet} from '@vite/vitejs';
-import { Uint8 } from 'vitejs-notthomiz/distSrc/utils/type';
 var getRandomValues = require('get-random-values');
 
 let running = false
@@ -9,6 +8,18 @@ var initChar = ''
 var prefix = ''
 var suffix = ''
 var initCharInt = 0 //used to subtract the match start point
+
+export interface AddressObj {
+	address : string,
+	originalAddress : string,
+  publicKey : string,
+  privateKey : string
+}
+
+export interface MatchObj {
+  seed : string,
+	address : AddressObj
+}
 
 // Returns true if address matches our criteria
 function isMatch(address : string, use_prefix : boolean, prefix : string, use_suffix : boolean, suffix : string) {
@@ -35,6 +46,7 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 // Generate count Vite address and search for prefix or suffix 
 export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: boolean, suffix : string, count : number) {
   console.log("Checking ", count);
+  let match : MatchObj = <MatchObj>{};
   for(var i = 0; i < count; i++) {
     // Generate random 32 byte seed
     var array = new Uint8Array(32);
@@ -48,11 +60,22 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
     // Check if generated address matches criteria
     if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
       console.log("Address matched: ", address.address);
-      return address;
+      match.address = address;
+      match.seed = seed;
+      return address.address;
     }
   }
   // Return empty string if no matches found
   return "";
+}
+
+// Output the address info in a pretty format
+export function printPrettyAddress(seed : string, address : AddressObj) { 
+  return "[ Seed: " + seed + "\n" +
+      "Address: " + address.address + "\n" +
+      "Original Address: " + address.originalAddress + "\n" +
+      "Public Key: " + address.publicKey + "\n" +
+      "Private Key: " + address.privateKey + "]\n";
 }
 
 // Convert buffer to hex string
