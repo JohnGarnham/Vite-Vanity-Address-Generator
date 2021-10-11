@@ -125,14 +125,14 @@ export default class VanityAddressForm extends React.Component {
         <div className="input-section">
           <div className="input-text-row"> 
             <input type="checkbox" className="input-checkbox" id="usePrefix" value={this.state.search.use_prefix} 
-              onChange={this.handlePrefixCheckboxChanged.bind(this)}/>
+              checked={this.state.search.use_prefix} onChange={this.handlePrefixCheckboxChanged.bind(this)}/>
             <label className="input-label">Prefix:</label>
             <input type="text" className="text-input" id="prefix" name="prefix" 
               value={this.state.search.prefix} onChange={this.handlePrefixChanged.bind(this)} />
           </div>
           <div className="input-text-row">
             <input type="checkbox" className="input-checkbox" id="useSuffix" value={this.state.search.use_suffix} 
-              onChange={this.handleSuffixCheckboxChanged.bind(this)}/>
+              checked={this.state.search.use_suffix} onChange={this.handleSuffixCheckboxChanged.bind(this)}/>
             <label className="input-label">Suffix:</label>
             <input type="text" className="text-input" id="suffix" name="suffix" 
                 value={this.state.search.suffix} onChange={this.handleSuffixChanged.bind(this)} />
