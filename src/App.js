@@ -16,9 +16,11 @@ export default class VanityAddressForm extends React.Component {
           use_prefix: false,
           suffix: '',
           use_suffix: false,
-          iterations: 0,
-          address: ''
+          iterations: 10000
         },
+        result: {
+          address: ''
+        }
       };
   }
 
@@ -71,11 +73,13 @@ export default class VanityAddressForm extends React.Component {
     var search = this.state.search;
     search.iterations  = event.target.value;
 
+    console.log(JSON.stringify(search));
+
     let prefix = this.state.search.prefix;
     let use_prefix = this.state.search.use_prefix;
     let suffix = this.state.search.suffix;
     let use_suffix = this.state.search.suffix;
-    let count = this.state.search.count;
+    let count = this.state.search.iterations;
 
     console.log("Searching " + count + " addresses with prefix \"" + prefix + "\" and suffix \"" + suffix + "\"");
     
@@ -87,10 +91,10 @@ export default class VanityAddressForm extends React.Component {
     } else {
       console.log("Address found ", addr);
     }
-
-    search.address  = addr;
-    this.setState({ search: search });
-
+    // Set the result of the search
+    var result = this.state.result;
+    result.address  = addr;
+    this.setState({ result: result });
   }
 
   render() {
@@ -130,7 +134,7 @@ export default class VanityAddressForm extends React.Component {
           </button>
         </div>
         <div className="output-row">
-          <textarea className="textarea-output" id="output" name="output" value={JSON.stringify(this.state.search.address)} readOnly />
+          <textarea className="textarea-output" id="output" name="output" value={JSON.stringify(this.state.result.address)} readOnly />
         </div>
       </div>
     );

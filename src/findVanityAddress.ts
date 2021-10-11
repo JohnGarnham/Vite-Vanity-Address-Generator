@@ -34,9 +34,8 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 
 // Generate count Vite address and search for prefix or suffix 
 export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: boolean, suffix : string, count : number) {
-  count += 1;
-  const iterations = 400;
-  for(var i = 0; i < iterations; i++) {
+  console.log("Checking ", count);
+  for(var i = 0; i < count; i++) {
     // Generate random 32 byte seed
     var array = new Uint8Array(32);
     getRandomValues(array);

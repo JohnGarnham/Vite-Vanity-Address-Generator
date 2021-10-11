@@ -55,7 +55,6 @@
   padding: 5px;
 }
 
-
 .text-input {
   color: rgb(245, 223, 223);
   background-color:  #414bce;
@@ -79,7 +78,7 @@
 
 .textarea-output {
   color: rgb(245, 223, 223);
-  background-color: #1e109c;
+  background-color: #414bce;
   width: 70vw;
   height: 80%;
   padding: 5px;
