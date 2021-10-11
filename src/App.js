@@ -38,7 +38,30 @@ export default class VanityAddressForm extends React.Component {
     this.setState({ search: search });
   }
 
+  // Generate addresses
+  generateAddresses() {
+    
+    console.log("Hello world!");
+
+    let prefix = this.state.search.prefix;
+    let suffix = this.state.search.suffix;
+    let count = this.state.search.count;
+
+    console.log("Searching " + count + " addresses with prefix \"" + prefix + "\" and suffix \"" + suffix + "\"");
+    
+    // Call search addresses function
+    let addr = search(prefix,suffix,count);
+    // If empty string returned, no matches found
+    if(!addr || addr.length === 0) {
+      console.log("No addresses found");
+    } else {
+      console.log("Address found ", addr);
+    }
+
+  }
+
   render() {
+    console.log("In render");
   return (
       <div className="vanity-body">
         <div className="header">
@@ -57,7 +80,7 @@ export default class VanityAddressForm extends React.Component {
             value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
         </div>
         <div className="input-button-row">
-          <button type="button" className="input-button" name="Generate" onClick={generateAddresses}>
+          <button type="button" className="input-button" name="Generate" onClick={this.generateAddresses.bind(this)}>
             Generate
           </button>
           <button type="button" className="input-button" name="Reset">
@@ -73,20 +96,4 @@ export default class VanityAddressForm extends React.Component {
 
 }
 
-// Generate addresses
-function generateAddresses() {
-  
-  let prefix = "";
-  let suffix = "";
-  let count = 100;
-  
-  // Call search addresses function
-  let address = search(prefix,suffix,count);
-  // If empty string returned, no matches found
-  if(!address || address.length === 0) {
 
-  } else {
-
-  }
-
-}

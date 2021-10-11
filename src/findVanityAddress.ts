@@ -23,7 +23,7 @@ function isMatch(address : string, prefix : string, suffix : string) {
   }
 
   // Generate count Vite address and search for prefix or suffix 
-  function search(prefix : string, suffix : string, count : number) {
+  export function search(prefix : string, suffix : string, count : number) {
       count += 1;
       const iterations = 400;
       for(var i = 0; i < iterations; i++) {
