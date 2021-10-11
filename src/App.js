@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react' 
-import {search} from './findVanityAddress'
+import {searchAddresses} from './findVanityAddress'
 
 
 export default class VanityAddressForm extends React.Component {
@@ -39,9 +39,10 @@ export default class VanityAddressForm extends React.Component {
   }
 
   // Generate addresses
-  generateAddresses() {
+  generateAddresses(event) {
     
-    console.log("Hello world!");
+    var search = this.state.search;
+    search.iterations  = event.target.value;
 
     let prefix = this.state.search.prefix;
     let suffix = this.state.search.suffix;
@@ -50,13 +51,16 @@ export default class VanityAddressForm extends React.Component {
     console.log("Searching " + count + " addresses with prefix \"" + prefix + "\" and suffix \"" + suffix + "\"");
     
     // Call search addresses function
-    let addr = search(prefix,suffix,count);
+    let addr = searchAddresses(prefix,suffix,count);
     // If empty string returned, no matches found
     if(!addr || addr.length === 0) {
       console.log("No addresses found");
     } else {
       console.log("Address found ", addr);
     }
+
+    search.address  = addr;
+    this.setState({ search: search });
 
   }
 
@@ -88,7 +92,7 @@ export default class VanityAddressForm extends React.Component {
           </button>
         </div>
         <div className="output-row">
-          <textarea className="textarea-output" id="output" name="output" readOnly />
+          <textarea className="textarea-output" id="output" name="output" value={this.state.search.address} readOnly />
         </div>
       </div>
     );
