@@ -1,9 +1,8 @@
 import './App.css';
 import React, { useState} from 'react' 
+import {search} from './findVanityAddress'
 import { Dropdown, DropdownButton, InputGroup, FormControl, Button } from 'react-bootstrap'
 import Card from "react-bootstrap/Card";
-
-import React from 'react';
 
 export default class VanityAddressForm extends React.Component {
 
@@ -11,10 +10,32 @@ export default class VanityAddressForm extends React.Component {
     super(props);
 
     this.state = {
-        address: props.address
+        search: {
+          prefix: props.prefix,
+          suffix: props.suffix,
+          iterations: props.iterations,
+          address: props.address
+        }
     }
 
+  }
 
+  handlePrefixChanged(event) {
+    var search = this.state.search;
+    search.prefix  = event.target.value;
+    this.setState({ search: search });
+  }
+
+  handleSuffixChanged(event) {
+    var search = this.state.search;
+    search.suffix  = event.target.value;
+    this.setState({ search: search });
+  }
+
+  handleIterationsChanged(event) {
+    var search = this.state.search;
+    search.iterations  = event.target.value;
+    this.setState({ search: search });
   }
 
   render() {
@@ -25,13 +46,15 @@ export default class VanityAddressForm extends React.Component {
         </div>
         <div className="input-text-row"> 
           Prefix: <input type="text" className="text-input" id="prefix" name="prefix" 
-            value={myValue}  onChange={(e) => setValue(e.target.value)}/>
+             value={this.state.search.prefix} onChange={this.handlePrefixChanged.bind(this)} />
         </div>
         <div className="input-text-row">
-          Suffix: <input type="text" className="text-input" id="suffix" name="suffix" />
+          Suffix: <input type="text" className="text-input" id="suffix" name="suffix" 
+              value={this.state.search.suffix} onChange={this.handleSuffixChanged.bind(this)} />
         </div>
         <div className="input-text-row">
-          Iterations: <input type="text" className="text-input-iterations" id="iterations" name="iterations" />
+          Iterations: <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
+            value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
         </div>
         <div className="input-button-row">
           <button type="button" className="input-button" name="Generate" onClick={generateAddresses}>
@@ -57,14 +80,10 @@ function generateAddresses() {
   let suffix = "";
   let count = 100;
   
-  this.setState(prevState => ({
-    isToggleOn: !prevState.isToggleOn
-  }));
-
   // Call search addresses function
   let address = search(prefix,suffix,count);
   // If empty string returned, no matches found
-  if(!str || str.length === 0) {
+  if(!address || address.length === 0) {
 
   } else {
 
