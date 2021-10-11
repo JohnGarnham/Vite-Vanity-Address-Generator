@@ -1,14 +1,13 @@
 import './App.css';
-import React, { useState} from 'react' 
+import React from 'react' 
 import {search} from './findVanityAddress'
-import { Dropdown, DropdownButton, InputGroup, FormControl, Button } from 'react-bootstrap'
-import Card from "react-bootstrap/Card";
+
 
 export default class VanityAddressForm extends React.Component {
 
   constructor(props) {
     super(props);
-
+    // Define state
     this.state = {
         search: {
           prefix: props.prefix,
@@ -17,7 +16,8 @@ export default class VanityAddressForm extends React.Component {
           address: props.address
         }
     }
-
+    // Set default state
+    this.state = { search: { prefix: '', suffix: '', iterations: 0, address: ''} };
   }
 
   handlePrefixChanged(event) {
