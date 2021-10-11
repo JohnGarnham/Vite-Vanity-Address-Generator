@@ -71,17 +71,22 @@ export default class VanityAddressForm extends React.Component {
         <div className="header">
           <h2>Vite Vanity Address Creator</h2>
         </div>
-        <div className="input-text-row"> 
-          Prefix: <input type="text" className="text-input" id="prefix" name="prefix" 
-             value={this.state.search.prefix} onChange={this.handlePrefixChanged.bind(this)} />
-        </div>
-        <div className="input-text-row">
-          Suffix: <input type="text" className="text-input" id="suffix" name="suffix" 
-              value={this.state.search.suffix} onChange={this.handleSuffixChanged.bind(this)} />
-        </div>
-        <div className="input-text-row">
-          Iterations: <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
-            value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
+        <div className="input-section">
+          <div className="input-text-row"> 
+            <label className="input-label">Prefix:</label>
+            <input type="text" className="text-input" id="prefix" name="prefix" 
+              value={this.state.search.prefix} onChange={this.handlePrefixChanged.bind(this)} />
+          </div>
+          <div className="input-text-row">
+            <label className="input-label">Suffix:</label>
+            <input type="text" className="text-input" id="suffix" name="suffix" 
+                value={this.state.search.suffix} onChange={this.handleSuffixChanged.bind(this)} />
+          </div>
+          <div className="input-text-row">
+          <label className="input-label">Iterations:</label>
+            <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
+              value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
+          </div>
         </div>
         <div className="input-button-row">
           <button type="button" className="input-button" name="Generate" onClick={this.generateAddresses.bind(this)}>

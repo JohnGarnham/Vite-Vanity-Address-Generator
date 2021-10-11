@@ -1,13 +1,12 @@
 .vanity-body {
-  color: rgb(214, 200, 200);
-  background-color: #040b68;
+  color: rgb(143, 139, 167);
+  background-color: #1e109c;
   height: 100vh;
   width: 100vw;
 }
 
 .header {
   color: rgb(129, 95, 95);
-  background-color: #2153b8;
   height: 50px;
   width: 100vw;
   display: flex;
@@ -15,54 +14,62 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #b4b1d3;
 }
 
 .input-button-row {
-  color: rgb(168, 13, 13);
-  background-color: #5a4cdb;
   width: 100vw;
   height: 70px;
+  padding: 5px;
 }
 
 .input-button {
-  color: rgb(245, 223, 223);
-  background-color: #2f3368;
+  color: #b4b1d3;
+  background-color: #3d44a0;
   float: left;
   width: 30%;
-  height: 80%;
+  height: 40px;
   margin: 5px;
+}
+
+.input-section {
+  padding: 5px;
+}
+
+.input-label {
+  display: inline-block;
+  width: 80px;
+  color: #b4b1d3;
+  padding: 5px;
 }
 
 .input-text-row {
   color: rgb(218, 195, 195);
-  background-color: #5a4cdb;
   width: 100vw;
-  padding: 3px;
+  height: 80%;
+  padding: 5px;
+  text-align: left;
 }
 
 .text-input {
   color: rgb(245, 223, 223);
-  background-color: #1e109c;
-  width: 80vw;
-  height: 20%;
-  margin: 5px;
+  background-color:  #414bce;
+  width: 20vw;
+  height: 25px;
 }
 
 .text-input-iterations {
   color: rgb(245, 223, 223);
-  background-color: #1e109c;
+  background-color:  #414bce;
   width: 50px;
-  height: 20%;
-  margin: 5px;
+  height: 25px;
 }
 
 .output-row {
   color: rgb(218, 195, 195);
-  background-color: #5a4cdb;
   width: 100vw;
   height: 400px;
-  padding: 3px;
+  padding: 5px;
 }
 
 .textarea-output {
@@ -70,6 +77,6 @@
   background-color: #1e109c;
   width: 70vw;
   height: 80%;
-  margin: 5px;
+  padding: 5px;
 }
 
