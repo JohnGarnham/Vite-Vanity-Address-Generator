@@ -51,6 +51,11 @@
   text-align: left;
 }
 
+.input-checkbox {
+  padding: 5px;
+}
+
+
 .text-input {
   color: rgb(245, 223, 223);
   background-color:  #414bce;

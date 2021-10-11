@@ -7,40 +7,67 @@ export default class VanityAddressForm extends React.Component {
 
   constructor(props) {
     super(props);
+
     // Define state
     this.state = {
-        search: {
-          prefix: props.prefix,
-          suffix: props.suffix,
-          iterations: props.iterations,
-          address: props.address
-        }
-    }
-    // Set default state
-    this.state = { search: { prefix: '', suffix: '', iterations: 0, address: ''} };
+        // Search parameters
+        search: {      
+          prefix: '',
+          use_prefix: true,
+          suffix: '',
+          use_suffix: false,
+          iterations: 0,
+          address: ''
+        },
+      };
   }
 
+  // Text in prefix textfield modified
   handlePrefixChanged(event) {
     var search = this.state.search;
     search.prefix  = event.target.value;
+    console.log(JSON.stringify(search));
     this.setState({ search: search });
   }
 
+  // Text in suffix textfield modified
   handleSuffixChanged(event) {
     var search = this.state.search;
     search.suffix  = event.target.value;
+    console.log(JSON.stringify(search));
     this.setState({ search: search });
   }
 
+  // Text in iterations textfield modified
   handleIterationsChanged(event) {
     var search = this.state.search;
     search.iterations  = event.target.value;
+    console.log(JSON.stringify(search));
+    this.setState({ search: search });
+  }
+
+  // Handle check box change
+  handlePrefixCheckboxChanged(event) {
+    var search = this.state.search;
+    // Toggle use_prefix value
+    search.use_prefix = ! search.use_prefix; 
+    console.log(JSON.stringify(search));
+    this.setState({ search: search });
+  }
+
+  handleSuffixCheckboxChanged(event) {
+    var search = this.state.search;
+    // Toggle use_suffix value
+    search.use_suffix = ! search.use_suffix; 
+    console.log(JSON.stringify(search));
     this.setState({ search: search });
   }
 
   // Generate addresses
   generateAddresses(event) {
-    
+
+    event.preventDefault();
+
     var search = this.state.search;
     search.iterations  = event.target.value;
 
@@ -73,11 +100,15 @@ export default class VanityAddressForm extends React.Component {
         </div>
         <div className="input-section">
           <div className="input-text-row"> 
+            <input type="checkbox" className="input-checkbox" id="usePrefix" value={this.state.search.use_prefix} 
+              onChange={this.handlePrefixCheckboxChanged.bind(this)}/>
             <label className="input-label">Prefix:</label>
             <input type="text" className="text-input" id="prefix" name="prefix" 
               value={this.state.search.prefix} onChange={this.handlePrefixChanged.bind(this)} />
           </div>
           <div className="input-text-row">
+            <input type="checkbox" className="input-checkbox" id="useSuffix" value={this.state.search.use_suffix} 
+              onChange={this.handleSuffixCheckboxChanged.bind(this)}/>
             <label className="input-label">Suffix:</label>
             <input type="text" className="text-input" id="suffix" name="suffix" 
                 value={this.state.search.suffix} onChange={this.handleSuffixChanged.bind(this)} />
