@@ -92,7 +92,7 @@ export default class VanityAddressForm extends React.Component {
           </button>
         </div>
         <div className="output-row">
-          <textarea className="textarea-output" id="output" name="output" value={this.state.search.address} readOnly />
+          <textarea className="textarea-output" id="output" name="output" value={JSON.stringify(this.state.search.address)} readOnly />
         </div>
       </div>
     );
