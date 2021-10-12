@@ -104,7 +104,8 @@ export default class VanityAddressForm extends React.Component {
     let addr = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
     // If empty string returned, no matches found
     if(!addr || addr.length === 0) {
-      console.log("No addresses found");
+      console.log("No addresses found after " + count + " iterations.");
+      addr = "No addresses found";
     } else {
       console.log("Address found ", addr);
     }
