@@ -22,14 +22,14 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
     // Fail on null or empty string
     if (prefix == null) return false;
     // Fail on mismatch
-    if (! addr.startsWith(prefix)) return false;
+    if (! addr.startsWith(prefix.toLowerCase())) return false;
   }
   // Check matching suffix
   if(use_suffix) {
     // Fail on null or empty string
     if (suffix == null) return false;
     // Fail on mismatch
-    if (! addr.endsWith(suffix)) return false;
+    if (! addr.endsWith(suffix.toLowerCase())) return false;
   }
   // If you reached here, you've won! :)
   return true;
@@ -37,7 +37,6 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 
 // Generate count Vite address and search for prefix or suffix 
 export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: boolean, suffix : string, count : number) {
-  console.log("Checking ", count);
   let match : MatchObj = <MatchObj>{};
   for(var i = 0; i < count; i++) {
     // Generate random 32 byte seed
@@ -50,7 +49,6 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
     var keyPair = wallet.deriveKeyPairByIndex(seed, index);
     var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
     // Check if generated address matches criteria
-    console.log("Use suffix " + use_suffix + " suffix " + use_suffix);
     if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
       console.log("Address matched: ", address.address);
       match.address = address;
