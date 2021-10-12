@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react' 
 import {searchAddresses, isHexString} from './findVanityAddress'
 
-const DEFAULT_ITERATIONS = 10000;
+const DEFAULT_ITERATIONS = 1000;
 
 export default class VanityAddressForm extends React.Component {
 
@@ -17,11 +17,10 @@ export default class VanityAddressForm extends React.Component {
           use_prefix: true,
           suffix: '',
           use_suffix: false,
-          iterations: 10000
+          iterations: DEFAULT_ITERATIONS
         },
         result: {
-          seed: '',
-          address: ''
+          output: ''
         }
       };
   }
@@ -79,7 +78,7 @@ export default class VanityAddressForm extends React.Component {
     this.setState({ search: search });
     // Clear output
     var result = this.state.result;
-    result.address = "";
+    result.output= "";
     this.setState({ result: result });
   }
 
@@ -110,17 +109,17 @@ export default class VanityAddressForm extends React.Component {
     }
 
     // Call search addresses function
-    let addr = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
+    let output = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
     // If empty string returned, no matches found
-    if(!addr || addr.length === 0) {
+    if(!output || output.length === 0) {
       console.log("No addresses found after " + count + " iterations.");
-      addr = "No addresses found";
+      output = "No addresses found";
     } else {
-      console.log("Address found ", addr);
+      console.log("Address found ", output);
     }
     // Set the result of the search
     var result = this.state.result;
-    result.address  = addr;
+    result.output = output;
     this.setState({ result: result });
   }
 
@@ -160,7 +159,8 @@ export default class VanityAddressForm extends React.Component {
           </button>
         </div>
         <div className="output-row">
-          <textarea className="textarea-output" id="output" name="output" value={JSON.stringify(this.state.result.address)} readOnly />
+          <textarea className="textarea-output" id="output" name="output" 
+            value={this.state.result.output} readOnly />
         </div>
       </div>
     );

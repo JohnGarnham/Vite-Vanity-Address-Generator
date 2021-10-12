@@ -1,18 +1,6 @@
 import {wallet} from '@vite/vitejs';
 var getRandomValues = require('get-random-values');
 
-export interface AddressObj {
-	address : string,
-	originalAddress : string,
-  publicKey : string,
-  privateKey : string
-}
-
-export interface MatchObj {
-  seed : string,
-	address : AddressObj
-}
-
 // Returns true if address matches our criteria
 function isMatch(address : string, use_prefix : boolean, prefix : string, use_suffix : boolean, suffix : string) {
   // Chop off vite_
@@ -36,43 +24,39 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 }
 
 // Generate count Vite address and search for prefix or suffix 
-export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: boolean, suffix : string, count : number) {
-  let match : MatchObj = <MatchObj>{};
-  for(var i = 0; i < count; i++) {
-    // Generate random 32 byte seed
-    var array = new Uint8Array(32);
-    getRandomValues(array);
-    // Generate randomized hex string for seed
-    const seed = buf2hex(array.buffer);
-    // Generate an address
-    let index = 0;
-    var keyPair = wallet.deriveKeyPairByIndex(seed, index);
-    var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
-    // Check if generated address matches criteria
-    if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
-      console.log("Address matched: ", address.address);
-      match.address = address;
-      match.seed = seed;
-      return address.address;
-    }
+export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: 
+  boolean, suffix : string, count : number) : string {
+    // Construct output string from matching addresses
+    let output : string = "";
+    // Iterate thru count addresses
+    for(var i = 0; i < count; i++) {
+      // Generate random 32 byte seed
+      var array = new Uint8Array(32);
+      getRandomValues(array);
+      // Generate randomized hex string for seed
+      const seed = buf2hex(array.buffer);
+      // Generate an address
+      let index = 0;
+      var keyPair = wallet.deriveKeyPairByIndex(seed, index);
+      var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
+      // Check if generated address matches criteria
+      if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
+        let addressInfo = "Address: " + address.address + "\n" +
+          "Seed: " + seed + "\n" +
+          "Private Key: " + address.privateKey + "\n" +
+          "Public Key: " + address.publicKey + "\n" +
+          "Original Address: " + address.originalAddress + "\n\n"
+        output += addressInfo;
+      }
   }
-  // Return empty string if no matches found
-  return "";
+  // Return output string
+  return output;
 }
 
 // Returns whether or not str is valid hex string
 export function isHexString(str : string) {
   var re = /^([0-9A-Fa-f])*$/;
   return (re.test(str));
-}
-
-// Output the address info in a pretty format
-export function printPrettyAddress(seed : string, address : AddressObj) { 
-  return "[ Seed: " + seed + "\n" +
-      "Address: " + address.address + "\n" +
-      "Original Address: " + address.originalAddress + "\n" +
-      "Public Key: " + address.publicKey + "\n" +
-      "Private Key: " + address.privateKey + "]\n";
 }
 
 // Convert buffer to hex string
