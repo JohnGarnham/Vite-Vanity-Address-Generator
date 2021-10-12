@@ -1,14 +1,6 @@
 import {wallet} from '@vite/vitejs';
 var getRandomValues = require('get-random-values');
 
-let running = false
-let count = 0
-let nextReport = 0
-var initChar = ''
-var prefix = ''
-var suffix = ''
-var initCharInt = 0 //used to subtract the match start point
-
 export interface AddressObj {
 	address : string,
 	originalAddress : string,
@@ -28,14 +20,14 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
   // Check matching prefix 
   if(use_prefix) {
     // Fail on null or empty string
-    if (prefix == null || prefix === "") return false;
+    if (prefix == null) return false;
     // Fail on mismatch
     if (! addr.startsWith(prefix)) return false;
   }
   // Check matching suffix
   if(use_suffix) {
     // Fail on null or empty string
-    if (suffix == null || suffix === "") return false;
+    if (suffix == null) return false;
     // Fail on mismatch
     if (! addr.endsWith(suffix)) return false;
   }

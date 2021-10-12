@@ -87,12 +87,11 @@ export default class VanityAddressForm extends React.Component {
   generateAddresses(event) {
 
     event.preventDefault();
-
+    // Grab search state. Log for debug
     var search = this.state.search;
-    search.iterations  = event.target.value;
-
     console.log(JSON.stringify(search));
 
+    // Grab search parameters
     let prefix = this.state.search.prefix;
     let use_prefix = this.state.search.use_prefix;
     let suffix = this.state.search.suffix;
