@@ -60,6 +60,12 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
   return "";
 }
 
+// Returns whether or not str is valid hex string
+export function isHexString(str : string) {
+  var re = /^([0-9A-Fa-f])*$/;
+  return (re.test(str));
+}
+
 // Output the address info in a pretty format
 export function printPrettyAddress(seed : string, address : AddressObj) { 
   return "[ Seed: " + seed + "\n" +

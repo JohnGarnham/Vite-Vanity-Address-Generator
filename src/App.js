@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react' 
-import {searchAddresses} from './findVanityAddress'
+import {searchAddresses, isHexString} from './findVanityAddress'
 
 const DEFAULT_ITERATIONS = 10000;
 
@@ -14,7 +14,7 @@ export default class VanityAddressForm extends React.Component {
         // Search parameters
         search: {      
           prefix: '',
-          use_prefix: false,
+          use_prefix: true,
           suffix: '',
           use_suffix: false,
           iterations: 10000
@@ -97,7 +97,18 @@ export default class VanityAddressForm extends React.Component {
     let suffix = this.state.search.suffix;
     let use_suffix = this.state.search.use_suffix;
     let count = this.state.search.iterations;
-    
+
+    // Make sure suffix is valid hex string
+    if(! isHexString(search.prefix)) {
+      alert("Prefix must be a hex string. Valid characters are 0-9 and A-F.");
+      return;
+    }
+    // Make sure suffix is valid hex string
+    if(! isHexString(search.suffix)) {
+      alert("Suffix must be a hex string. Valid characters are 0-9 and A-F.");
+      return;
+    }
+
     // Call search addresses function
     let addr = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
     // If empty string returned, no matches found
