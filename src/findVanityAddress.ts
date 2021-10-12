@@ -50,6 +50,7 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
     var keyPair = wallet.deriveKeyPairByIndex(seed, index);
     var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
     // Check if generated address matches criteria
+    console.log("Use suffix " + use_suffix + " suffix " + use_suffix);
     if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
       console.log("Address matched: ", address.address);
       match.address = address;

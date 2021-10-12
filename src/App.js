@@ -95,10 +95,8 @@ export default class VanityAddressForm extends React.Component {
     let prefix = this.state.search.prefix;
     let use_prefix = this.state.search.use_prefix;
     let suffix = this.state.search.suffix;
-    let use_suffix = this.state.search.suffix;
+    let use_suffix = this.state.search.use_suffix;
     let count = this.state.search.iterations;
-
-    console.log("Searching " + count + " addresses with prefix \"" + prefix + "\" and suffix \"" + suffix + "\"");
     
     // Call search addresses function
     let addr = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
@@ -116,7 +114,6 @@ export default class VanityAddressForm extends React.Component {
   }
 
   render() {
-    console.log("In render");
   return (
       <div className="vanity-body">
         <div className="header">
