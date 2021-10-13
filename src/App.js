@@ -6,6 +6,11 @@ const DEFAULT_ITERATIONS = 1000;
 
 export default class VanityAddressForm extends React.Component {
 
+  componentDidMount() {
+    // Set title of page
+    document.title = "Vite Vanity Address Generator";
+  }
+
   constructor(props) {
     super(props);
 
