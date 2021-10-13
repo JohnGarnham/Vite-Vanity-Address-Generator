@@ -125,7 +125,7 @@ export default class VanityAddressForm extends React.Component {
 
   render() {
   return (
-      <div className="vanity-body">
+      <div className="root">
         <div className="header">
           <h2>Vite Vanity Address Creator</h2>
         </div>
