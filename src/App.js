@@ -145,9 +145,10 @@ export default class VanityAddressForm extends React.Component {
                 value={this.state.search.suffix} onChange={this.handleSuffixChanged.bind(this)} />
           </div>
           <div className="input-text-row">
-          <label className="input-label">Iterations:</label>
+            <label className="input-label">Iterations:</label>
             <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
               value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
+            <label className="matches-label" name="matches-found-label" id="matches-found-label">300 matches found</label>
           </div>
         </div>
         <div className="input-button-row">

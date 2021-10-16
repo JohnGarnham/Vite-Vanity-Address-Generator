@@ -43,6 +43,14 @@
   padding: 5px;
 }
 
+.matches-label {
+  text-align: right;
+  display: inline-block;
+  width: 230px;
+  color: #da4113;
+  padding: 5px;
+}
+
 .input-text-row {
   color: rgb(218, 195, 195);
   width: 100vw;
@@ -65,8 +73,9 @@
 .text-input-iterations {
   color: rgb(245, 223, 223);
   background-color:  #414bce;
-  width: 50px;
+  width: 70px;
   height: 25px;
+  margin-left: 20px;
 }
 
 .output-row {
