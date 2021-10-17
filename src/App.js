@@ -76,6 +76,11 @@ export default class VanityAddressForm extends React.Component {
     search.use_suffix = false;
     search.iterations = DEFAULT_ITERATIONS;
     this.setState({ search: search });
+    // Clear matching count label
+    let matchLabel = document.getElementById("matches-found-label");
+    if(matchLabel != null) {
+      matchLabel.innerHTML = "";
+    }
     // Clear output
     var result = this.state.result;
     result.output= "";
@@ -113,31 +118,29 @@ export default class VanityAddressForm extends React.Component {
     let matches = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
     let output = "";
 
-    // If null or no matches found
-    if(!matches || matches.length == 0) {
-     // console.log("No addresses found after " + count + " iterations.");
-      output = "No addresses found";
+    // Set matches found label
+    let labelStr = "";
+    if(matches.length == 0) {
+      labelStr = output = "No addresses found";
     } else {
-        // Update matches label
-        let matchesFound = matches.length;
-        let labelStr = matchesFound + " matching addresses found";
-        console.log(labelStr);
-        let matchLabel = document.getElementById("matching-found-label");
-        if(matchLabel != null) {
-          matchLabel.innerHTML = labelStr;
-        }
-        // Set output textfield
-        let seed = "";
-        let i = 0;
-        for(i = 0; i < matches.length; i++) {
-          let match = matches[i];
-          output += "Address: " + match.address.address + "\n" +
-              "Seed: " + match.seed + "\n" +
-              "Private Key: " + match.address.privateKey + "\n" +
-              "Public Key: " + match.address.publicKey + "\n" +
-              "Original Address: " + match.address.originalAddress + "\n\n";
-        }
-
+      labelStr = matches.length + " matching addresses found";
+    }
+    console.log(labelStr);
+    let matchLabel = document.getElementById("matches-found-label");
+    if(matchLabel != null) {
+      matchLabel.innerHTML = labelStr;
+    }
+      
+    // Set output textfield
+    let seed = "";
+    let i = 0;
+    for(i = 0; i < matches.length; i++) {
+      let match = matches[i];
+      output += "Address: " + match.address.address + "\n" +
+          "Seed: " + match.seed + "\n" +
+          "Private Key: " + match.address.privateKey + "\n" +
+          "Public Key: " + match.address.publicKey + "\n" +
+          "Original Address: " + match.address.originalAddress + "\n\n";
     }
 
     // Update output state
@@ -171,7 +174,7 @@ export default class VanityAddressForm extends React.Component {
             <label className="input-label">Iterations:</label>
             <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
               value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
-            <label className="matches-label" name="matches-found-label" id="matches-found-label">300 matches found</label>
+            <label className="matches-label" name="matches-found-label" id="matches-found-label"></label>
           </div>
         </div>
         <div className="input-button-row">
