@@ -132,11 +132,11 @@ export default class VanityAddressForm extends React.Component {
     }
       
     // Set output textfield
-    let seed = "";
     let i = 0;
     for(i = 0; i < matches.length; i++) {
       let match = matches[i];
-      output += "Address: " + match.address.address + "\n" +
+      output += "Match #" + (i + 1) + "\n" +
+          "Address: " + match.address.address + "\n" +
           "Seed: " + match.seed + "\n" +
           "Private Key: " + match.address.privateKey + "\n" +
           "Public Key: " + match.address.publicKey + "\n" +
