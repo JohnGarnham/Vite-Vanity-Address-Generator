@@ -9,6 +9,10 @@ export declare type AddressObj = {
   privateKey: Hex;
   address: Address;
 }
+export declare type MatchObj = {
+  address : AddressObj;
+  seed : Hex;
+}
 
 // Returns true if address matches our criteria
 function isMatch(address : string, use_prefix : boolean, prefix : string, use_suffix : boolean, suffix : string) : boolean {
@@ -33,33 +37,34 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 }
 
 // Generate count Vite address and search for prefix or suffix 
-// Return an array of matching AddressObj objects
+// Return an array of matching MatchObj objects
 export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: 
-  boolean, suffix : string, count : number) : AddressObj[] {
+  boolean, suffix : string, count : number) : MatchObj[] {
     // Debug log
     console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
     // Create matches array
-    console.log("javascript sucks!!!");
-    var matches : AddressObj[] = new Array();
+    var matches : MatchObj[] = new Array();
     // Create a web worker
     //const webWorker: Worker = new Worker('./worker.js');
     // Iterate thru count addresses
-    console.log("HELLO WORLD");
     for(var i = 0; i < count; i++) {
       // Generate new random seed
       const seed = generateNewRandomSeed();
-      console.log("Using seed" + seed);
       // Generate an address from this seed
       let index = 0;
       var keyPair = wallet.deriveKeyPairByIndex(seed, index);
       var address = wallet.createAddressByPrivateKey(keyPair.privateKey);
       // Check if generated address matches criteria
       if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
-        console.log("MATCHING ADDRESS FOUND");
-        // Push address onto matches
-        matches.push(address);
+        // Create new match object
+        const newMatch = <MatchObj>({
+          address: address,
+          seed: seed
+        });
+        // Push onto matches array
+        matches.push(newMatch);
         // Debug matching address
-        console.log("New address match found: ", address);
+        console.log("New address match found: ", newMatch);
       }
     }
     // Return matches

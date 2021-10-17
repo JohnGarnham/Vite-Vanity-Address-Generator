@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react' 
-import {searchAddresses, isHexString} from './findVanityAddress'
+import {searchAddresses, isHexString, MatchObj} from './findVanityAddress'
 
 const DEFAULT_ITERATIONS = 1000;
 
@@ -122,21 +122,20 @@ export default class VanityAddressForm extends React.Component {
         let matchesFound = matches.length;
         let labelStr = matchesFound + " matching addresses found";
         console.log(labelStr);
-        let stupidPieceOfShit = document.getElementById("matching-found-label");
-        if(stupidPieceOfShit != null) {
-          stupidPieceOfShit.innerHTML = labelStr;
+        let matchLabel = document.getElementById("matching-found-label");
+        if(matchLabel != null) {
+          matchLabel.innerHTML = labelStr;
         }
-        console.log("I AM A STUPID PIECE OF SHIT");
         // Set output textfield
         let seed = "";
         let i = 0;
         for(i = 0; i < matches.length; i++) {
-          let address = matches[i];
-          output += "Address: " + address.address + "\n" +
-              "Seed: " + seed + "\n" +
-              "Private Key: " + address.privateKey + "\n" +
-              "Public Key: " + address.publicKey + "\n" +
-              "Original Address: " + address.originalAddress + "\n\n";
+          let match = matches[i];
+          output += "Address: " + match.address.address + "\n" +
+              "Seed: " + match.seed + "\n" +
+              "Private Key: " + match.address.privateKey + "\n" +
+              "Public Key: " + match.address.publicKey + "\n" +
+              "Original Address: " + match.address.originalAddress + "\n\n";
         }
 
     }
