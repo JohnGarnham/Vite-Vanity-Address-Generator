@@ -1,8 +1,9 @@
 import './App.css';
+
 import React from 'react' 
 import {searchAddresses, isHexString, MatchObj} from './findVanityAddress'
 
-const DEFAULT_ITERATIONS = 1000;
+const DEFAULT_ITERATIONS = 500;
 
 export default class VanityAddressForm extends React.Component {
 
@@ -114,8 +115,15 @@ export default class VanityAddressForm extends React.Component {
       return;
     }
 
+    // Create a web worker
+    const webWorker = new Worker('worker.js');
+    webWorker.onerror = (err) => { console.log("Web worker error: ", err); }
+
     // Call search addresses function
     let matches = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
+    // Pass in search parameters to webworker
+    webWorker.postMessage( { use_prefix: use_prefix, prefix: prefix, use_suffix: use_suffix, suffix:suffix, count:count });
+
     let output = "";
 
     // Set matches found label

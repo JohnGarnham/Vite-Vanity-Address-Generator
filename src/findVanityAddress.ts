@@ -41,11 +41,9 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: 
   boolean, suffix : string, count : number) : MatchObj[] {
     // Debug log
-    console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
+    //console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
     // Create matches array
     var matches : MatchObj[] = new Array();
-    // Create a web worker
-    //const webWorker: Worker = new Worker('./worker.js');
     // Iterate thru count addresses
     for(var i = 0; i < count; i++) {
       // Generate new random seed
@@ -64,7 +62,7 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
         // Push onto matches array
         matches.push(newMatch);
         // Debug matching address
-        console.log("New address match found: ", newMatch);
+        //console.log("New address match found: ", newMatch);
       }
     }
     // Return matches
