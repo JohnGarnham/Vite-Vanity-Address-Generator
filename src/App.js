@@ -86,6 +86,7 @@ export default class VanityAddressForm extends React.Component {
   generateAddresses(event) {
 
     event.preventDefault();
+
     // Grab search state. Log for debug
     var search = this.state.search;
     console.log(JSON.stringify(search));
@@ -109,15 +110,38 @@ export default class VanityAddressForm extends React.Component {
     }
 
     // Call search addresses function
-    let output = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
-    // If empty string returned, no matches found
-    if(!output || output.length === 0) {
-      console.log("No addresses found after " + count + " iterations.");
+    let matches = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
+    let output = "";
+
+    // If null or no matches found
+    if(!matches || matches.length == 0) {
+     // console.log("No addresses found after " + count + " iterations.");
       output = "No addresses found";
     } else {
-      console.log("Address found ", output);
+        // Update matches label
+        let matchesFound = matches.length;
+        let labelStr = matchesFound + " matching addresses found";
+        console.log(labelStr);
+        let stupidPieceOfShit = document.getElementById("matching-found-label");
+        if(stupidPieceOfShit != null) {
+          stupidPieceOfShit.innerHTML = labelStr;
+        }
+        console.log("I AM A STUPID PIECE OF SHIT");
+        // Set output textfield
+        let seed = "";
+        let i = 0;
+        for(i = 0; i < matches.length; i++) {
+          let address = matches[i];
+          output += "Address: " + address.address + "\n" +
+              "Seed: " + seed + "\n" +
+              "Private Key: " + address.privateKey + "\n" +
+              "Public Key: " + address.publicKey + "\n" +
+              "Original Address: " + address.originalAddress + "\n\n";
+        }
+
     }
-    // Set the result of the search
+
+    // Update output state
     var result = this.state.result;
     result.output = output;
     this.setState({ result: result });
