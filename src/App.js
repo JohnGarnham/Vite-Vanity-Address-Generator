@@ -197,6 +197,13 @@ export default class VanityAddressForm extends React.Component {
           <textarea className="textarea-output" id="output" name="output" 
             value={this.state.result.output} readOnly />
         </div>
+        <footer>
+          Email: <a className="footer-link" href="mailto:john.e.garnham@gmail.com">john.e.garnham@gmail.com</a> 
+          Twitter: <a className="footer-link"  href="https://twitter.com/ViNoDevErik">ViNoDevErik</a>
+          Source: <a className="footer-link"  href="https://github.com/JohnGarnham/Vite-Vanity-Address-Generator">
+            https://github.com/JohnGarnham/Vite-Vanity-Address-Generator
+            </a>
+        </footer>
       </div>
     );
   }
