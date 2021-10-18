@@ -24,4 +24,3 @@ yarn-error.log*
 
 # ts -> js
 src/findVanityAddress.js
-src/worker.js
