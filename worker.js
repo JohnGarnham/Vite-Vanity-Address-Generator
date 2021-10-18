@@ -11,7 +11,7 @@ function doSearch() {
 exports.doSearch = doSearch;
 onmessage = function (e) {
     console.log("In Webworker");
-    /*
+
     const search = e.data;
 
     const use_prefix = search.use_prefix;
@@ -21,6 +21,6 @@ onmessage = function (e) {
     const count = search.count;
 
     // Debug log
-    console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");*/
+    console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
     // Grab search parameters
 };
