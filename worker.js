@@ -1,5 +1,6 @@
-const {wallet} = require('@vite/vitejs');
-var getRandomValues = require('get-random-values');
+
+//
+import {wallet} from '@vite/vitejs';
 
 onmessage = (e) => {
 
@@ -44,7 +45,7 @@ function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
 function generateNewRandomSeed() {
     // Generate random 32 byte seed
     var array = new Uint8Array(32);
-    getRandomValues(array);
+   // getRandomValues(array);
     // Generate randomized hex string for seed
     return buf2hex(array.buffer);
 }
