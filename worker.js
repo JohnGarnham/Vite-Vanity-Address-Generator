@@ -1,5 +1,5 @@
 
-export function doSearch() {
+function doSearch() {
     const use_prefix = true;
     const use_suffix = false;
     const prefix = "aa";
