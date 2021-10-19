@@ -1,4 +1,3 @@
-import { searchAddresses } from "./findVanityAddress";
 
 export function doSearch() {
     const use_prefix = true;
