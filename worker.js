@@ -1,4 +1,4 @@
-
+const {wallet} = require('@vite/vitejs');
 var getRandomValues = require('get-random-values');
 
 onmessage = (e) => {
