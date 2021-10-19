@@ -4,6 +4,7 @@ import {wallet} from '@vite/vitejs';
 
 onmessage = (e) => {
 
+  console.log("WHY IS THIS GOD DAMN RETARDED FUCKING THING NOT WORKING NOW?!!!");
     const search = e.data;
 
     const use_prefix = search.use_prefix;
