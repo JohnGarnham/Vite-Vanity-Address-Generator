@@ -1,6 +1,13 @@
 import 'get-random-values';
 import * as vite from '@vite/vitejs';
 
+
+function onerror(e) {
+
+  console.log("worker error: ", e.message);
+
+};
+
 function onmessage(e) {
 
     const search = e.data;
@@ -35,6 +42,7 @@ function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
       // Fail on mismatch
       if (! addr.endsWith(suffix.toLowerCase())) return false;
     }
+    console.log("HELLO WORLD!!!");
     // If you reached here, you've won! :)
     return true;
   }
