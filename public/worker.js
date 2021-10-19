@@ -1,6 +1,5 @@
-import { searchAddresses } from "./findVanityAddress";
 
-export function doSearch() {
+function doSearch() {
     const use_prefix = true;
     const use_suffix = false;
     const prefix = "aa";
@@ -12,8 +11,6 @@ export function doSearch() {
 
 onmessage = (e) => {
 
-    console.log("PLEASE UPDATE PLEASE UPDATE In Webworker");
-    
     const search = e.data;
 
     const use_prefix = search.use_prefix;
@@ -23,7 +20,7 @@ onmessage = (e) => {
     const count = search.count;
 
     // Debug log
-    console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
+    console.log(`In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})`);
     // Grab search parameters
 
   };
