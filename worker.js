@@ -1,10 +1,17 @@
+import 'get-random-values';
+import * as vite from '@vite/vitejs';
 
-//
-import {wallet} from '@vite/vitejs';
 
-onmessage = (e) => {
+function onerror(e) {
 
-  console.log("WHY IS THIS GOD DAMN RETARDED FUCKING THING NOT WORKING NOW?!!!");
+  console.log("worker error: ", e.message);
+
+};
+
+function onmessage(e) {
+
+  console.log("IN ON MESSAGE");
+  
     const search = e.data;
 
     const use_prefix = search.use_prefix;
@@ -37,6 +44,7 @@ function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
       // Fail on mismatch
       if (! addr.endsWith(suffix.toLowerCase())) return false;
     }
+    console.log("HELLO WORLD!!!");
     // If you reached here, you've won! :)
     return true;
   }
@@ -46,7 +54,7 @@ function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
 function generateNewRandomSeed() {
     // Generate random 32 byte seed
     var array = new Uint8Array(32);
-   // getRandomValues(array);
+    getRandomValues(array);
     // Generate randomized hex string for seed
     return buf2hex(array.buffer);
 }
