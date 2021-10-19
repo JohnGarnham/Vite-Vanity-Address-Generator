@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Vite-Vanity-Address-Generator/static/css/main.5827fd96.chunk.css",
-    "main.js": "/Vite-Vanity-Address-Generator/static/js/main.e0348a38.chunk.js",
-    "main.js.map": "/Vite-Vanity-Address-Generator/static/js/main.e0348a38.chunk.js.map",
+    "main.js": "/Vite-Vanity-Address-Generator/static/js/main.2926ecbf.chunk.js",
+    "main.js.map": "/Vite-Vanity-Address-Generator/static/js/main.2926ecbf.chunk.js.map",
     "runtime-main.js": "/Vite-Vanity-Address-Generator/static/js/runtime-main.f1c86a60.js",
     "runtime-main.js.map": "/Vite-Vanity-Address-Generator/static/js/runtime-main.f1c86a60.js.map",
     "static/js/2.37e1eb41.chunk.js": "/Vite-Vanity-Address-Generator/static/js/2.37e1eb41.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.f1c86a60.js",
     "static/js/2.37e1eb41.chunk.js",
     "static/css/main.5827fd96.chunk.css",
-    "static/js/main.e0348a38.chunk.js"
+    "static/js/main.2926ecbf.chunk.js"
   ]
 }
