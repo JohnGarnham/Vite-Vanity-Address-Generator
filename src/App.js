@@ -118,11 +118,12 @@ export default class VanityAddressForm extends React.Component {
     // Create a web worker
     const webWorker = new Worker('worker.js');
     webWorker.onerror = (err) => { console.log("Web worker error: ", err); }
+    // Pass in search parameters to webworker
+    webWorker.postMessage( { use_prefix: use_prefix, prefix: prefix, use_suffix: use_suffix, suffix:suffix, count:count });
 
     // Call search addresses function
     let matches = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
-    // Pass in search parameters to webworker
-    webWorker.postMessage( { use_prefix: use_prefix, prefix: prefix, use_suffix: use_suffix, suffix:suffix, count:count });
+
 
     let output = "";
 
@@ -200,7 +201,7 @@ export default class VanityAddressForm extends React.Component {
         <footer>
           Email: <a className="footer-link" href="mailto:john.e.garnham@gmail.com">john.e.garnham@gmail.com</a> 
           Twitter: <a className="footer-link"  href="https://twitter.com/ViNoDevErik">ViNoDevErik</a>
-          Source: <a className="footer-link"  href="https://github.com/JohnGarnham/Vite-Vanity-Address-Generator">
+          GITHUB: <a className="footer-link"  href="https://github.com/JohnGarnham/Vite-Vanity-Address-Generator">
             https://github.com/JohnGarnham/Vite-Vanity-Address-Generator
             </a>
         </footer>
