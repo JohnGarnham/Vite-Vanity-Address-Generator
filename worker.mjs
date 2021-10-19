@@ -10,6 +10,8 @@ function onerror(e) {
 
 function onmessage(e) {
 
+  console.log("IN ON MESSAGE");
+  
     const search = e.data;
 
     const use_prefix = search.use_prefix;
