@@ -1,4 +1,6 @@
 
+import * as vite from '@vite/vitejs';
+
 function doSearch() {
     const use_prefix = true;
     const use_suffix = false;
