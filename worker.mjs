@@ -1,4 +1,5 @@
 
+const {wallet} = require('@vite/vitejs');
 
 function onerror(e) {
 
