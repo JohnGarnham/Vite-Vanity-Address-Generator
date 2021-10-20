@@ -1,6 +1,4 @@
 
-const {wallet} = require('@vite/vitejs');
-
 function onerror(e) {
 
   console.log("worker error: ", e.message);
