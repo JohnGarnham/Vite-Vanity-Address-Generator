@@ -1,17 +1,16 @@
-import 'get-random-values';
-import * as vite from '@vite/vitejs';
+
+function doSearch() {
+    const use_prefix = true;
+    const use_suffix = false;
+    const prefix = "aa";
+    const suffix = "";
+    const count = 500;
 
 
-function onerror(e) {
+}
 
-  console.log("worker error: ", e.message);
+onmessage = (e) => {
 
-};
-
-function onmessage(e) {
-
-  console.log("IN ON MESSAGE");
-  
     const search = e.data;
 
     const use_prefix = search.use_prefix;
@@ -25,49 +24,3 @@ function onmessage(e) {
     // Grab search parameters
 
   };
-
-// Returns true if address matches our criteria
-function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
-    // Chop off vite_
-    const addr = address.substring(5);
-    // Check matching prefix 
-    if(use_prefix) {
-      // Fail on null or empty string
-      if (prefix == null) return false;
-      // Fail on mismatch
-      if (! addr.startsWith(prefix.toLowerCase())) return false;
-    }
-    // Check matching suffix
-    if(use_suffix) {
-      // Fail on null or empty string
-      if (suffix == null) return false;
-      // Fail on mismatch
-      if (! addr.endsWith(suffix.toLowerCase())) return false;
-    }
-    console.log("HELLO WORLD!!!");
-    // If you reached here, you've won! :)
-    return true;
-  }
-
-  
-// Generate new random seed
-function generateNewRandomSeed() {
-    // Generate random 32 byte seed
-    var array = new Uint8Array(32);
-    getRandomValues(array);
-    // Generate randomized hex string for seed
-    return buf2hex(array.buffer);
-}
-
-// Returns whether or not str is valid hex string
-function isHexString(str) {
-  var re = /^([0-9A-Fa-f])*$/;
-  return (re.test(str));
-}
-
-// Convert buffer to hex string
-function buf2hex(buffer) { 
-  return [...new Uint8Array(buffer)]
-      .map(x => x.toString(16).padStart(2, '0'))  // Convert to hex, pad with 0
-      .join('');
-}
