@@ -24,7 +24,8 @@ export default class VanityAddressForm extends React.Component {
           iterations: DEFAULT_ITERATIONS
         },
         result: {
-          output: ''
+          output: '',
+          matches: 0
         }
       };
   }
@@ -88,39 +89,7 @@ export default class VanityAddressForm extends React.Component {
     // Clear output
     var result = this.state.result;
     result.output= "";
-    this.setState({ result: result });
-  }
-
-  updateOutput(matches) {
-    // Set matches found label
-    let labelStr = "";
-    if(matches.length == 0) {
-      labelStr = output = "No addresses found";
-    } else {
-      labelStr = matches.length + " matching addresses found";
-    }
-    console.log(labelStr);
-    let matchLabel = document.getElementById("matches-found-label");
-    if(matchLabel != null) {
-      matchLabel.innerHTML = labelStr;
-    }
-      
-    // Set output textfield
-    let i = 0;
-    let output = "";
-    for(i = 0; i < matches.length; i++) {
-      let match = matches[i];
-      output += "Match #" + (i + 1) + "\n" +
-          "Address: " + match.address.address + "\n" +
-          "Seed: " + match.seed + "\n" +
-          "Private Key: " + match.address.privateKey + "\n" +
-          "Public Key: " + match.address.publicKey + "\n" +
-          "Original Address: " + match.address.originalAddress + "\n\n";
-    }
-
-    // Update output state
-    var result = this.state.result;
-    result.output = output;
+    result.matches = 0;
     this.setState({ result: result });
   }
 
@@ -128,6 +97,12 @@ export default class VanityAddressForm extends React.Component {
   generateAddresses(event) {
 
     event.preventDefault();
+
+    // Clear output
+    var result = this.state.result;
+    result.output = ""
+    result.matches = 0;
+    this.setState({ result: result });
 
     // Grab search state. Log for debug
     var search = this.state.search;
@@ -154,47 +129,46 @@ export default class VanityAddressForm extends React.Component {
     const webWorker = new Worker();
 
     // Pass in search parameters to webworker
-    console.log("POSTING MSG TO WEBWORKER");
-    var matches = new Array();
     webWorker.postMessage( { use_prefix: use_prefix, prefix: prefix, use_suffix: use_suffix, suffix:suffix, count:count });
 
     webWorker.onerror = (e) => {
       console.log(e);
     };
 
-    let output = "";
     webWorker.addEventListener('message', (e) => {
-      var match = e.data;
-      matches.push(match);
-      console.log('Worker said: ', match);
-      // Set matches found label
-      let labelStr = "";
-      if(matches.length == 0) {
-        labelStr = output = "No addresses found";
+
+      // Update output state
+      var result = this.state.result;
+      var output = result.output;
+      var numberMatches = result.matches;
+
+      var msg = e.data;
+
+      if(msg == "END") {
+        // Set matches found label
+        let labelStr = "";
+        if(numberMatches == 0) {
+          labelStr = output = "No addresses found";
+        } else {
+          labelStr = numberMatches + " matching addresses found";
+        }
+        console.log(labelStr);
+        let matchLabel = document.getElementById("matches-found-label");
+        if(matchLabel != null) {
+          matchLabel.innerHTML = labelStr;
+        }
+
       } else {
-        labelStr = matches.length + " matching addresses found";
-      }
-      console.log(labelStr);
-      let matchLabel = document.getElementById("matches-found-label");
-      if(matchLabel != null) {
-        matchLabel.innerHTML = labelStr;
-      }
-        
-      // Set output textfield
-      let i = 0;
-      let output = "";
-      for(i = 0; i < matches.length; i++) {
-        let match = matches[i];
-        output += "Match #" + (i + 1) + "\n" +
+        var match = JSON.parse(msg);
+        output += "Match #" + (numberMatches + 1) + "\n" +
             "Address: " + match.address.address + "\n" +
             "Seed: " + match.seed + "\n" +
             "Private Key: " + match.address.privateKey + "\n" +
             "Public Key: " + match.address.publicKey + "\n" +
             "Original Address: " + match.address.originalAddress + "\n\n";
+        result.matches = numberMatches + 1;
+        console.log('Worker added match: ', match);
       }
-
-      // Update output state
-      var result = this.state.result;
       result.output = output;
       this.setState({ result: result });
     }, false);

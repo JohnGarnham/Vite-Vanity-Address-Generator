@@ -15,29 +15,31 @@ onmessage = (e) => {
 
     // Debug log
     console.log(`In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})`);
-    
-    // Perform search
-    let matches = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
-    let output = "";
-    let labelStr = "";
-    if(matches.length == 0) {
-      labelStr = "No addresses found";
-    } else {
-      labelStr = matches.length + " matching addresses found";
-    }
 
-    let i = 0;
-    for(i = 0; i < matches.length; i++) {
-      let match = matches[i];
-      output += "Match #" + (i + 1) + "\n" +
-          "Address: " + match.address.address + "\n" +
-          "Seed: " + match.seed + "\n" +
-          "Private Key: " + match.address.privateKey + "\n" +
-          "Public Key: " + match.address.publicKey + "\n" +
-          "Original Address: " + match.address.originalAddress + "\n\n";
-        console.log("Posting " + output);
-        postMessage(output);
+    // Create matches array
+    var matches = new Array();
+    // Iterate thru count addresses
+    for(var i = 0; i < count; i++) {
+      // Generate new random seed
+      const seed = generateNewRandomSeed();
+      // Generate an address from this seed
+      let index = 0;
+      var keyPair = vite.wallet.deriveKeyPairByIndex(seed, index);
+      var address = vite.wallet.createAddressByPrivateKey(keyPair.privateKey);
+      // Check if generated address matches criteria
+      if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
+        // Create new match object
+        const newMatch = ({
+          address: address,
+          seed: seed
+        });
+        // Push onto matches array
+        postMessage(JSON.stringify(newMatch));
+        // Debug matching address
+        console.log("New address match found: ", newMatch);
+      }
     }
+    postMessage("END");
 
   };
 
@@ -80,37 +82,3 @@ return [...new Uint8Array(buffer)]
     .map(x => x.toString(16).padStart(2, '0'))  // Convert to hex, pad with 0
     .join('');
 }
-
-
-// Generate count Vite address and search for prefix or suffix 
-// Return an array of matching MatchObj objects
-function searchAddresses(use_prefix, prefix, use_suffix, suffix, count) {
-  // Debug log
-  //console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
-  // Create matches array
-  var matches = new Array();
-  // Iterate thru count addresses
-  for(var i = 0; i < count; i++) {
-    // Generate new random seed
-    const seed = generateNewRandomSeed();
-    // Generate an address from this seed
-    let index = 0;
-    var keyPair = vite.wallet.deriveKeyPairByIndex(seed, index);
-    var address = vite.wallet.createAddressByPrivateKey(keyPair.privateKey);
-    // Check if generated address matches criteria
-    if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
-      // Create new match object
-      const newMatch = ({
-        address: address,
-        seed: seed
-      });
-      // Push onto matches array
-      postMessage(newMatch);
-      // Debug matching address
-      console.log("New address match found: ", newMatch);
-    }
-  }
-  // Return matches
-  return matches;
-}
-
