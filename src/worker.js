@@ -28,18 +28,31 @@ onmessage = (e) => {
       var address = vite.wallet.createAddressByPrivateKey(keyPair.privateKey);
       // Check if generated address matches criteria
       if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
-        // Create new match object
-        const newMatch = ({
-          address: address,
-          seed: seed
+        // Create new message object
+        const message = ({
+          action: 'MATCH',
+          data: {
+            seed: seed,
+            address: address 
+          }
         });
-        // Push onto matches array
-        postMessage(JSON.stringify(newMatch));
         // Debug matching address
-        console.log("New address match found: ", newMatch);
+        console.log("New address match found: ", message);
+        // Send message back to UI
+        postMessage(JSON.stringify(message));
+      }
+      // Update count every 100 iterations
+      if(i% 100 == 0) {
+        // Create new message object
+        const message = ({
+          action: 'COUNT',
+          data: i
+        });
+        // Debug matching address
+        console.log("New update count message: ", message);
+        postMessage(JSON.stringify(message));
       }
     }
-    postMessage("END");
 
   };
 

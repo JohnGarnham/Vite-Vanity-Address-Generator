@@ -25,7 +25,8 @@ export default class VanityAddressForm extends React.Component {
         },
         result: {
           output: '',
-          matches: 0
+          matches: 0,
+          iterations: 0
         }
       };
   }
@@ -85,6 +86,7 @@ export default class VanityAddressForm extends React.Component {
     var result = this.state.result;
     result.output= "";
     result.matches = 0;
+    result.iterations = 0;
     this.setState({ result: result });
   }
 
@@ -97,6 +99,7 @@ export default class VanityAddressForm extends React.Component {
     var result = this.state.result;
     result.output = ""
     result.matches = 0;
+    result.iterations = 0;
     this.setState({ result: result });
 
     // Grab search state. Log for debug
@@ -137,13 +140,11 @@ export default class VanityAddressForm extends React.Component {
       var output = result.output;
       var numberMatches = result.matches;
 
+      // Parse match structure from message
       var msg = e.data;
-
-      if(msg == "END") {
-      
-
-      } else {
-        var match = JSON.parse(msg);
+      var message = JSON.parse(e.data);
+      if(message.action == "MATCH") {
+        var match = message.data;
         output += "Match #" + (numberMatches + 1) + "\n" +
             "Address: " + match.address.address + "\n" +
             "Seed: " + match.seed + "\n" +
@@ -152,7 +153,11 @@ export default class VanityAddressForm extends React.Component {
             "Original Address: " + match.address.originalAddress + "\n\n";
         result.matches = numberMatches + 1;
         console.log('Worker added match: ', match);
+      } else if(message.action == "COUNT") {
+        var count = message.data;
+        result.iterations = count;
       }
+      // Update output
       result.output = output;
       this.setState({ result: result });
     }, false);
@@ -187,7 +192,7 @@ export default class VanityAddressForm extends React.Component {
             <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
               value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
             <label className="matches-label" name="matches-found-label" id="matches-found-label">
-              {this.state.result.matches} matches found</label>
+              {this.state.result.matches} matches out of {this.state.result.iterations}</label>
           </div>
         </div>
         <div className="input-button-row">
@@ -205,7 +210,7 @@ export default class VanityAddressForm extends React.Component {
         <footer>
           Email: <a className="footer-link" href="mailto:john.e.garnham@gmail.com">john.e.garnham@gmail.com</a> 
           Twitter: <a className="footer-link"  href="https://twitter.com/ViNoDevErik">ViNoDevErik</a>
-          GITHUB: <a className="footer-link"  href="https://github.com/JohnGarnham/Vite-Vanity-Address-Generator">
+          Source: <a className="footer-link"  href="https://github.com/JohnGarnham/Vite-Vanity-Address-Generator">
             https://github.com/JohnGarnham/Vite-Vanity-Address-Generator
             </a>
         </footer>
