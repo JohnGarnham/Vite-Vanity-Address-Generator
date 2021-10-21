@@ -5,6 +5,7 @@ import {searchAddresses, isHexString, MatchObj} from './findVanityAddress'
 
 /* eslint import/no-webpack-loader-syntax: off */
 import Worker from "worker-loader!./worker.js";
+const webWorker = new Worker();
 
 const DEFAULT_ITERATIONS = 5000;
 
@@ -15,6 +16,7 @@ export default class VanityAddressForm extends React.Component {
 
     // Define state
     this.state = {
+        running: false,
         // Search parameters
         search: {      
           prefix: '',
@@ -23,6 +25,7 @@ export default class VanityAddressForm extends React.Component {
           use_suffix: false,
           iterations: DEFAULT_ITERATIONS
         },
+        // Output result
         result: {
           output: '',
           matches: 0,
@@ -90,17 +93,23 @@ export default class VanityAddressForm extends React.Component {
     this.setState({ result: result });
   }
 
+    // Terminate the worker
+    stop(event) {
+      webWorker.terminate();
+    }
+
   // Generate addresses
   generateAddresses(event) {
 
     event.preventDefault();
 
     // Clear output
-    var result = this.state.result;
-    result.output = ""
-    result.matches = 0;
-    result.iterations = 0;
-    this.setState({ result: result });
+    var state = this.state;
+    state.running = true;
+    state.result.output = ""
+    state.result.matches = 0;
+    state.result.iterations = 0;
+    this.setState({ state : state });
 
     // Grab search state. Log for debug
     var search = this.state.search;
@@ -124,8 +133,6 @@ export default class VanityAddressForm extends React.Component {
       return;
     }
 
-    const webWorker = new Worker();
-
     // Pass in search parameters to webworker
     webWorker.postMessage( { use_prefix: use_prefix, prefix: prefix, use_suffix: use_suffix, suffix:suffix, count:count });
 
@@ -136,6 +143,7 @@ export default class VanityAddressForm extends React.Component {
     webWorker.addEventListener('message', (e) => {
 
       // Update output state
+      var state = this.state;
       var result = this.state.result;
       var output = result.output;
       var numberMatches = result.matches;
@@ -156,15 +164,18 @@ export default class VanityAddressForm extends React.Component {
       } else if(message.action == "COUNT") {
         var count = message.data;
         result.iterations = count;
+      } else if(message.action == "END") {
+        var count = message.data;
+        result.iterations = count;
+        state.running = false;
       }
       // Update output
       result.output = output;
-      this.setState({ result: result });
+      state.result = result;
+      this.setState({ state : state });
     }, false);
 
   }
-
-
 
   render() {
   return (
@@ -196,11 +207,17 @@ export default class VanityAddressForm extends React.Component {
           </div>
         </div>
         <div className="input-button-row">
-          <button type="button" className="input-button" name="Generate" onClick={this.generateAddresses.bind(this)}>
+          <button type="button" className="input-button" name="Generate" 
+            onClick={this.generateAddresses.bind(this)} disabled={this.state.running}>
             Generate
           </button>
-          <button type="button" className="input-button" name="Reset" onClick={this.reset.bind(this)}>
+          <button type="button" className="input-button" name="Reset" 
+          onClick={this.reset.bind(this)} disabled={this.state.running}>
             Reset
+          </button>
+          <button type="button" className="input-button" name="Stop" 
+            onClick={this.stop.bind(this)} disabled={! this.state.running}>
+            Stop
           </button>
         </div>
         <div className="output-row">

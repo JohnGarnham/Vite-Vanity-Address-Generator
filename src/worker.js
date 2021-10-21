@@ -52,8 +52,15 @@ onmessage = (e) => {
         console.log("New update count message: ", message);
         postMessage(JSON.stringify(message));
       }
-    }
-
+    } // end for loop
+    // Update final count
+    const message = ({
+      action: 'END',
+      data: i
+    });
+    // Debug matching address
+    console.log("New update count message: ", message);
+    postMessage(JSON.stringify(message));
   };
 
   
