@@ -1,23 +1,11 @@
-import {wallet} from '@vite/vitejs';
-import { Hex, Address } from '@vite/vitejs/distSrc/utils/type';
+const {wallet} = require('@vite/vitejs');
 
 var getRandomValues = require('get-random-values');
 
-export declare type AddressObj = {
-  originalAddress: Hex;
-  publicKey: Hex;
-  privateKey: Hex;
-  address: Address;
-}
-export declare type MatchObj = {
-  address : AddressObj;
-  seed : Hex;
-}
-
 // Returns true if address matches our criteria
-function isMatch(address : string, use_prefix : boolean, prefix : string, use_suffix : boolean, suffix : string) : boolean {
+function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
   // Chop off vite_
-  const addr : string = address.substring(5);
+  const addr = address.substring(5);
   // Check matching prefix 
   if(use_prefix) {
     // Fail on null or empty string
@@ -38,12 +26,11 @@ function isMatch(address : string, use_prefix : boolean, prefix : string, use_su
 
 // Generate count Vite address and search for prefix or suffix 
 // Return an array of matching MatchObj objects
-export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix: 
-  boolean, suffix : string, count : number) : MatchObj[] {
+export function searchAddresses(use_prefix, prefix, use_suffix, suffix, count) {
     // Debug log
     //console.log("In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})");
     // Create matches array
-    var matches : MatchObj[] = new Array();
+    var matches = new Array();
     // Iterate thru count addresses
     for(var i = 0; i < count; i++) {
       // Generate new random seed
@@ -55,7 +42,7 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
       // Check if generated address matches criteria
       if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
         // Create new match object
-        const newMatch = <MatchObj>({
+        const newMatch = ({
           address: address,
           seed: seed
         });
@@ -70,7 +57,7 @@ export function searchAddresses(use_prefix: boolean, prefix : string, use_suffix
 }
 
 // Generate new random seed
-function generateNewRandomSeed() : string {
+function generateNewRandomSeed() {
     // Generate random 32 byte seed
     var array = new Uint8Array(32);
     getRandomValues(array);
@@ -79,13 +66,13 @@ function generateNewRandomSeed() : string {
 }
 
 // Returns whether or not str is valid hex string
-export function isHexString(str : string) {
+export function isHexString(str) {
   var re = /^([0-9A-Fa-f])*$/;
   return (re.test(str));
 }
 
 // Convert buffer to hex string
-function buf2hex(buffer : ArrayBufferLike) { 
+function buf2hex(buffer) { 
   return [...new Uint8Array(buffer)]
       .map(x => x.toString(16).padStart(2, '0'))  // Convert to hex, pad with 0
       .join('');
