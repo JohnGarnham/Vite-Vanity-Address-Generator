@@ -3,6 +3,9 @@ import './App.css';
 import React from 'react' 
 import {searchAddresses, isHexString, MatchObj} from './findVanityAddress'
 
+/* eslint import/no-webpack-loader-syntax: off */
+import Worker from "worker-loader!./worker.js";
+
 const DEFAULT_ITERATIONS = 500;
 
 export default class VanityAddressForm extends React.Component {
@@ -88,6 +91,39 @@ export default class VanityAddressForm extends React.Component {
     this.setState({ result: result });
   }
 
+  updateOutput(matches) {
+    // Set matches found label
+    let labelStr = "";
+    if(matches.length == 0) {
+      labelStr = output = "No addresses found";
+    } else {
+      labelStr = matches.length + " matching addresses found";
+    }
+    console.log(labelStr);
+    let matchLabel = document.getElementById("matches-found-label");
+    if(matchLabel != null) {
+      matchLabel.innerHTML = labelStr;
+    }
+      
+    // Set output textfield
+    let i = 0;
+    let output = "";
+    for(i = 0; i < matches.length; i++) {
+      let match = matches[i];
+      output += "Match #" + (i + 1) + "\n" +
+          "Address: " + match.address.address + "\n" +
+          "Seed: " + match.seed + "\n" +
+          "Private Key: " + match.address.privateKey + "\n" +
+          "Public Key: " + match.address.publicKey + "\n" +
+          "Original Address: " + match.address.originalAddress + "\n\n";
+    }
+
+    // Update output state
+    var result = this.state.result;
+    result.output = output;
+    this.setState({ result: result });
+  }
+
   // Generate addresses
   generateAddresses(event) {
 
@@ -115,48 +151,57 @@ export default class VanityAddressForm extends React.Component {
       return;
     }
 
-    // Create a web worker
-    const webWorker = new Worker('worker.js');
-    webWorker.onerror = (err) => { console.log("Web worker error: ", err); }
+    const webWorker = new Worker();
+
     // Pass in search parameters to webworker
+    console.log("POSTING MSG TO WEBWORKER");
+    var matches = new Array();
     webWorker.postMessage( { use_prefix: use_prefix, prefix: prefix, use_suffix: use_suffix, suffix:suffix, count:count });
 
-    // Call search addresses function
-    let matches = searchAddresses(use_prefix,prefix,use_suffix,suffix,count);
-
+    webWorker.onerror = (e) => {
+      console.log(e);
+    };
 
     let output = "";
+    webWorker.addEventListener('message', (e) => {
+      var match = e.data;
+      matches.push(match);
+      console.log('Worker said: ', match);
+      // Set matches found label
+      let labelStr = "";
+      if(matches.length == 0) {
+        labelStr = output = "No addresses found";
+      } else {
+        labelStr = matches.length + " matching addresses found";
+      }
+      console.log(labelStr);
+      let matchLabel = document.getElementById("matches-found-label");
+      if(matchLabel != null) {
+        matchLabel.innerHTML = labelStr;
+      }
+        
+      // Set output textfield
+      let i = 0;
+      let output = "";
+      for(i = 0; i < matches.length; i++) {
+        let match = matches[i];
+        output += "Match #" + (i + 1) + "\n" +
+            "Address: " + match.address.address + "\n" +
+            "Seed: " + match.seed + "\n" +
+            "Private Key: " + match.address.privateKey + "\n" +
+            "Public Key: " + match.address.publicKey + "\n" +
+            "Original Address: " + match.address.originalAddress + "\n\n";
+      }
 
-    // Set matches found label
-    let labelStr = "";
-    if(matches.length == 0) {
-      labelStr = output = "No addresses found";
-    } else {
-      labelStr = matches.length + " matching addresses found";
-    }
-    console.log(labelStr);
-    let matchLabel = document.getElementById("matches-found-label");
-    if(matchLabel != null) {
-      matchLabel.innerHTML = labelStr;
-    }
-      
-    // Set output textfield
-    let i = 0;
-    for(i = 0; i < matches.length; i++) {
-      let match = matches[i];
-      output += "Match #" + (i + 1) + "\n" +
-          "Address: " + match.address.address + "\n" +
-          "Seed: " + match.seed + "\n" +
-          "Private Key: " + match.address.privateKey + "\n" +
-          "Public Key: " + match.address.publicKey + "\n" +
-          "Original Address: " + match.address.originalAddress + "\n\n";
-    }
+      // Update output state
+      var result = this.state.result;
+      result.output = output;
+      this.setState({ result: result });
+    }, false);
 
-    // Update output state
-    var result = this.state.result;
-    result.output = output;
-    this.setState({ result: result });
   }
+
+
 
   render() {
   return (
