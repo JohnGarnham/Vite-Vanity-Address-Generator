@@ -1,7 +1,7 @@
 import './App.css';
 
 import React from 'react' 
-import {searchAddresses, isHexString, MatchObj} from './findVanityAddress'
+import {isHexString} from './helper'
 
 /* eslint import/no-webpack-loader-syntax: off */
 import Worker from "worker-loader!./worker.js";
