@@ -1,4 +1,4 @@
-# Vite Vanity Address Geneator #
+# Vite Vanity Address Generator #
 
 Will generate Vite addresses that fit the specifications supplied. 
 
