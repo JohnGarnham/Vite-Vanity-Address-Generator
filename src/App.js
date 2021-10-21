@@ -105,11 +105,6 @@ export default class VanityAddressForm extends React.Component {
 
     // Clear output
     var state = this.state;
-    state.running = true;
-    state.result.output = ""
-    state.result.matches = 0;
-    state.result.iterations = 0;
-    this.setState({ state : state });
 
     // Grab search state. Log for debug
     var search = this.state.search;
@@ -149,7 +144,6 @@ export default class VanityAddressForm extends React.Component {
       var numberMatches = result.matches;
 
       // Parse match structure from message
-      var msg = e.data;
       var message = JSON.parse(e.data);
       if(message.action == "MATCH") {
         var match = message.data;
@@ -165,9 +159,20 @@ export default class VanityAddressForm extends React.Component {
         var count = message.data;
         result.iterations = count;
       } else if(message.action == "END") {
+        // Work has ended. Update final count.
         var count = message.data;
         result.iterations = count;
+        // Set running to false
         state.running = false;
+      } else if(message.action == "START") {
+        // Clear previous search's state
+        result.iterations = 0;
+        result.output = ""
+        result.matches = 0;
+        // Set running to true
+        state.running = true;
+      } else {
+        console.log("Worker received unknown action: ", message);
       }
       // Update output
       result.output = output;

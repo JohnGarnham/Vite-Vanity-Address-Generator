@@ -16,6 +16,12 @@ onmessage = (e) => {
     // Debug log
     console.log(`In searchAddresses(${use_prefix},${prefix},${use_suffix},${suffix},${count})`);
 
+    // Send START message
+    var message = ({
+      action: 'START',
+      data: i
+    });
+    postMessage(JSON.stringify(message));
     // Create matches array
     var matches = new Array();
     // Iterate thru count addresses
@@ -29,7 +35,7 @@ onmessage = (e) => {
       // Check if generated address matches criteria
       if (isMatch(address.address, use_prefix, prefix, use_suffix, suffix)) {
         // Create new message object
-        const message = ({
+        message = ({
           action: 'MATCH',
           data: {
             seed: seed,
@@ -44,7 +50,7 @@ onmessage = (e) => {
       // Update count every 100 iterations
       if(i% 100 == 0) {
         // Create new message object
-        const message = ({
+        message = ({
           action: 'COUNT',
           data: i
         });
@@ -54,7 +60,7 @@ onmessage = (e) => {
       }
     } // end for loop
     // Update final count
-    const message = ({
+    message = ({
       action: 'END',
       data: i
     });
@@ -85,7 +91,6 @@ function isMatch(address, use_prefix, prefix, use_suffix, suffix) {
   // If you reached here, you've won! :)
   return true;
 }
-
 
 // Generate new random seed
 function generateNewRandomSeed() {
