@@ -12,3 +12,5 @@ If you want to stop searching, press the Stop button.
 If you want to reset the settings back to the defaults, press the Reset button.
 
 When a match is found, it will show up in the text area in the lower half of the screen. 
+
+To use the app hosted on GitHub pages go to https://johngarnham.github.io/Vite-Vanity-Address-Generator/ 
