@@ -6,7 +6,7 @@ import {searchAddresses, isHexString, MatchObj} from './findVanityAddress'
 /* eslint import/no-webpack-loader-syntax: off */
 import Worker from "worker-loader!./worker.js";
 
-const DEFAULT_ITERATIONS = 500;
+const DEFAULT_ITERATIONS = 5000;
 
 export default class VanityAddressForm extends React.Component {
 
@@ -81,11 +81,6 @@ export default class VanityAddressForm extends React.Component {
     search.use_suffix = false;
     search.iterations = DEFAULT_ITERATIONS;
     this.setState({ search: search });
-    // Clear matching count label
-    let matchLabel = document.getElementById("matches-found-label");
-    if(matchLabel != null) {
-      matchLabel.innerHTML = "";
-    }
     // Clear output
     var result = this.state.result;
     result.output= "";
@@ -145,18 +140,7 @@ export default class VanityAddressForm extends React.Component {
       var msg = e.data;
 
       if(msg == "END") {
-        // Set matches found label
-        let labelStr = "";
-        if(numberMatches == 0) {
-          labelStr = output = "No addresses found";
-        } else {
-          labelStr = numberMatches + " matching addresses found";
-        }
-        console.log(labelStr);
-        let matchLabel = document.getElementById("matches-found-label");
-        if(matchLabel != null) {
-          matchLabel.innerHTML = labelStr;
-        }
+      
 
       } else {
         var match = JSON.parse(msg);
@@ -202,7 +186,8 @@ export default class VanityAddressForm extends React.Component {
             <label className="input-label">Iterations:</label>
             <input type="text" className="text-input-iterations" id="iterations" name="iterations" 
               value={this.state.search.iterations} onChange={this.handleIterationsChanged.bind(this)} />
-            <label className="matches-label" name="matches-found-label" id="matches-found-label"></label>
+            <label className="matches-label" name="matches-found-label" id="matches-found-label">
+              {this.state.result.matches} matches found</label>
           </div>
         </div>
         <div className="input-button-row">
