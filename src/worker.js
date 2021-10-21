@@ -1,6 +1,6 @@
 
 import * as vite from '@vite/vitejs';
-import {isHexString, buf2hex, isMatch, generateNewRandomSeed} from './helper'
+import {isMatch, generateNewRandomSeed} from './helper'
 
 onmessage = (e) => {
 
@@ -21,8 +21,6 @@ onmessage = (e) => {
       data: i
     });
     postMessage(JSON.stringify(message));
-    // Create matches array
-    var matches = new Array();
     // Iterate thru count addresses
     for(var i = 0; i < count; i++) {
       // Generate new random seed

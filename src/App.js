@@ -5,7 +5,7 @@ import {isHexString} from './helper'
 
 /* eslint import/no-webpack-loader-syntax: off */
 import Worker from "worker-loader!./worker.js";
-const webWorker = new Worker();
+var webWorker = new Worker();
 
 const DEFAULT_ITERATIONS = 5000;
 
@@ -93,10 +93,17 @@ export default class VanityAddressForm extends React.Component {
     this.setState({ result: result });
   }
 
-    // Terminate the worker
-    stop(event) {
-      webWorker.terminate();
-    }
+  // Stop button pressed
+  stop(event) {
+    // Update running to false
+    var state = this.state;
+    state.running = false;
+    this.setState({ state : state});
+    // Terminate worker
+    webWorker.terminate();
+    // Reinstantiate
+    webWorker = new Worker();
+  }
 
   // Generate addresses
   generateAddresses(event) {
@@ -154,6 +161,7 @@ export default class VanityAddressForm extends React.Component {
             "Public Key: " + match.address.publicKey + "\n" +
             "Original Address: " + match.address.originalAddress + "\n\n";
         result.matches = numberMatches + 1;
+        result.output = output;
         console.log('Worker added match: ', match);
       } else if(message.action == "COUNT") {
         var count = message.data;
@@ -174,8 +182,7 @@ export default class VanityAddressForm extends React.Component {
       } else {
         console.log("Worker received unknown action: ", message);
       }
-      // Update output
-      result.output = output;
+      // Update state
       state.result = result;
       this.setState({ state : state });
     }, false);
