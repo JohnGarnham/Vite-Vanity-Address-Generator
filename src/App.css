@@ -32,6 +32,15 @@
   margin: 5px;
 }
 
+.input-button:disabled {
+  color: #b4b1d3;
+  background-color: #898ed1;
+  float: left;
+  width: 30%;
+  height: 40px;
+  margin: 5px;
+}
+
 .input-section {
   padding: 5px;
 }
